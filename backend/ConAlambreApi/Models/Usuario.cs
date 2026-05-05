@@ -14,6 +14,7 @@ namespace ConAlambreApi.Models
       public string Email {get; set;}
 
       public string Telefono {get; set;}
+      public string Rol {get; set;}
 
       public string Avatar {get; set;}
     }

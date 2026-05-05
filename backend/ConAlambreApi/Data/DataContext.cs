@@ -8,6 +8,10 @@ namespace ConAlambreApi.Data
             : base(options) { }
 
     public DbSet<Usuario> Usuarios { get; set; }
+    public DbSet<Categoria> Categorias { get; set; }
+    public DbSet<Rol> Roles { get; set; }
+    public DbSet<Pedido> Pedidos { get; set; }
+    public DbSet<Servicio> Servicios { get; set; }
 
   }
     
