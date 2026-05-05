@@ -1,2 +1,2 @@
-# ServiLife
+# ManoGo
 Aplicación para servicios
