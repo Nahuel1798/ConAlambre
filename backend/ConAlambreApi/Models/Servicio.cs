@@ -9,11 +9,17 @@ namespace ConAlambreApi.Models{
 
     public string Nombre {get; set;}
 
-    [ForeignKey("id")]
+    [ForeignKey("Id")]
     public int IdUsuario {get; set;}
 
-    [ForeignKey("id")]
+    [ForeignKey("Id")]
+    public Usuario Usuario {get; set;}
+
+    [ForeignKey("Id")]
     public int IdCategoria {get; set;} 
+
+    [ForeignKey("Id")]
+    public Categoria Categoria {get; set;} 
 
     public string Titulo {get; set;}
 

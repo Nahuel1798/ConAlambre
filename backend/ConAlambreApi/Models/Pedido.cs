@@ -17,5 +17,8 @@ namespace ConAlambreApi.Models{
 
     [ForeignKey("Id")]
     public int IdUsuario {get; set;}
+
+    [ForeignKey("Id")]
+    public Usuario Usuario {get; set;}
   }
 }
