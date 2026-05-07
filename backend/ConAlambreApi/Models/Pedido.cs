@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ConAlambreApi.Models{
   public class Pedido {
@@ -15,10 +14,9 @@ namespace ConAlambreApi.Models{
 
     public double Precio {get; set;}
 
-    [ForeignKey("Id")]
     public int IdUsuario {get; set;}
 
-    [ForeignKey("Id")]
+    [ForeignKey("IdUsuario")]
     public Usuario Usuario {get; set;}
   }
 }
