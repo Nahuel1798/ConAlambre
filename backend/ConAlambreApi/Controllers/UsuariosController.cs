@@ -61,7 +61,8 @@ namespace ConAlambreApi.Controllers
 
         // POST: api/Usuarios/create
         [HttpPost ("create")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
+        [AllowAnonymous]
         public ActionResult CreateUsuario(UsuarioRegisterRequest dto)
         {
             var nuevoUsuario = new Usuario

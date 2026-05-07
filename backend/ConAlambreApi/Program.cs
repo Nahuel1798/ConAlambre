@@ -1,4 +1,5 @@
 using ConAlambreApi.Data;
+using ConAlambreApi.Service;
 using Npgsql;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -13,6 +14,8 @@ var configuration = builder.Configuration;
 // Servicios
 builder.Services.AddControllers();
 
+builder.Services.AddScoped<JwtTokenService>();
+
 // PostgreSQL
 var connection = configuration["ConnectionStrings:PostgreSQL"];
 builder.Services.AddDbContext<DataContext>(options =>
@@ -20,6 +23,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 );
 
 var key = configuration["Jwt:Key"] ?? throw new InvalidOperationException("Jwt:Key is not configured");
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -80,7 +84,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// 🔐 Habilitar autenticación y autorización
+// Habilitar autenticación y autorización
 app.UseAuthentication();
 app.UseAuthorization();
 
