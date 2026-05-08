@@ -5,6 +5,7 @@ using ConAlambreApi.DTOs.Requests;
 using ConAlambreApi.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Mapster;
 
 namespace ConAlambreApi.Controllers
 {
@@ -36,15 +37,7 @@ namespace ConAlambreApi.Controllers
             return Ok(new
             {
                 Token = token,
-                User = new
-                {
-                    user.Id,
-                    user.Nombre,
-                    user.Apellido,
-                    user.Email,
-                    user.Rol,
-                    user.Avatar
-                }
+                UserResponse = user.Adapt<UsuarioResponse>()
             });
         }
 
