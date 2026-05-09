@@ -5,6 +5,7 @@ interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "classN
   label: string;
   icon?: ReactNode;
   showPasswordToggle?: boolean;
+  className?: string;
 }
 
 export function Input({
@@ -13,6 +14,7 @@ export function Input({
   showPasswordToggle = false,
   type = "text",
   id,
+  className = "",
   ...props
 }: InputProps) {
   const generatedId = useId();
@@ -40,7 +42,7 @@ export function Input({
           type={inputType}
           className={`w-full bg-surface-container-low border border-outline-variant/30 rounded-xl py-4 text-on-surface focus:ring-2 focus:ring-primary-container focus:border-transparent outline-none transition-all placeholder:text-outline-variant/50 font-body-md ${
             icon ? "pl-12" : "pl-4"
-          } ${isPassword ? "pr-12" : "pr-4"}`}
+          } ${isPassword ? "pr-12" : "pr-4"} ${className}`}
           {...props}
         />
         {showPasswordToggle && isPassword && (

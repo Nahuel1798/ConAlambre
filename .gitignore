@@ -44,6 +44,8 @@ appsettings.Development.json
 backend/ConAlambreApi/Migrations/
 .atl/
 resources_con_alambre/
+.agents/
+skills-lock.json
 
 # Documentation
 DESIGN.md
