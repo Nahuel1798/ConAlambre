@@ -40,6 +40,15 @@ ScaffoldingReadMe.txt
 .env
 appsettings.Development.json
 
+# ConAlambre project specific
+backend/ConAlambreApi/Migrations/
+.atl/
+resources_con_alambre/
+
+# Documentation
+DESIGN.md
+AGENTS.md
+
 # Others
 ~$*
 *~
