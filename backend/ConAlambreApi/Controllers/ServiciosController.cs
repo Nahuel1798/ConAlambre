@@ -48,23 +48,35 @@ namespace ConAlambreApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> FindById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var servicio = await _context.Servicios.Where(s => s.Id == id).SingleOrDefaultAsync();
+            var servicio = await _context.Servicios.ProjectToType<ServicioResponse>().Where(s => s.Id == id).SingleOrDefaultAsync();
             
             if (servicio == null) return NotFound();
 
-            return StatusCode(201, servicio.Adapt<ServicioResponse>());
+            return StatusCode(200, servicio);
         }
 
         [HttpGet]
-        public async Task<IActionResult> FindAll()
+        public async Task<IActionResult> GetAll()
         {
-            var servicio = await _context.Servicios.ToListAsync();
+            var servicio = await _context.Servicios.ProjectToType<ServicioResponse>().ToListAsync();
             
             if (servicio == null) return NotFound();
 
-            return StatusCode(201, servicio.Adapt<ServicioResponse>());
+            return StatusCode(200, servicio);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var servicio = await _context.Servicios.Where(s => s.Id == id).SingleOrDefaultAsync();
+
+            if (servicio == null) return NotFound();
+
+            _context.Servicios.Remove(servicio);
+
+            return NoContent(); 
         }
     }
 }
