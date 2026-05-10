@@ -15,11 +15,13 @@ namespace ConAlambreApi.Controllers
     {
         private readonly DataContext _context;
         private readonly JwtTokenService _jwtTokenService;
+        private readonly HashService _hashService;
 
-        public LoginController(DataContext context, JwtTokenService jwtTokenService)
+        public LoginController(DataContext context, JwtTokenService jwtTokenService, HashService hashService)
         {
             _context = context;
             _jwtTokenService = jwtTokenService;
+            _hashService = hashService;
         }
 
         // POST: api/Login
@@ -27,8 +29,18 @@ namespace ConAlambreApi.Controllers
         [HttpPost]
         public ActionResult Login(LoginResponse dto)
         {
-            var user = _context.Usuarios.FirstOrDefault(u => u.Email == dto.Email && u.Contrasena == dto.Contrasena);
+            var user = _context.Usuarios.FirstOrDefault(u => u.Email == dto.Email);
             if (user == null)
+            {
+                return Unauthorized(new { Message = "Contraseña y email inválidos." });
+            }
+
+            bool passwordOk = _hashService.VerifyPassword(
+                user.Contrasena,
+                dto.Contrasena
+            );
+
+            if (!passwordOk)
             {
                 return Unauthorized(new { Message = "Contraseña y email inválidos." });
             }
@@ -55,7 +67,7 @@ namespace ConAlambreApi.Controllers
                 Nombre = dto.Nombre,
                 Apellido = dto.Apellido,
                 Email = dto.Email,
-                Contrasena = dto.Contrasena,
+                Contrasena = _hashService.HashPassword(dto.Contrasena),
                 Telefono = dto.Telefono,
                 Rol = "User",
                 Avatar = dto.Avatar

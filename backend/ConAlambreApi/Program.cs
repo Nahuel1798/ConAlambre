@@ -15,6 +15,7 @@ var configuration = builder.Configuration;
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<JwtTokenService>();
+builder.Services.AddScoped<HashService>();
 
 // PostgreSQL
 var connection = configuration["ConnectionStrings:PostgreSQL"];
