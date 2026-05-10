@@ -7,3 +7,13 @@ export interface UsuarioResponse {
   rol: string;
   avatar: string;
 }
+
+export interface UsuarioRegisterRequest {
+  nombre: string;
+  apellido: string;
+  email: string;
+  contrasena: string;
+  telefono: string;
+  rol: string;
+  avatar: string;
+}

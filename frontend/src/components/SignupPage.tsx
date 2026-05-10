@@ -1,8 +1,43 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { loginService } from "../services/loginService";
 import { Input } from "./ui/Input";
 import { Button } from "./ui/Button";
 import { Network, User, Mail, Lock, ArrowRight } from "lucide-react";
 
 export function SignupPage() {
+
+  const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const [rol, setRol] = useState("Cliente");
+  const [avatar, setAvatar] = useState("https://example.com/avatar.jpg");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await loginService.signup({
+        nombre,
+        apellido,
+        email,
+        contrasena: password,
+        telefono,
+        rol: rol,
+        avatar: avatar,
+      });
+
+      console.log("Registro exitoso");
+
+      navigate("/");
+      
+    } catch (error) {
+      console.error("Error de registro:", error);
+    }
+  };
+
   return (
     <main className="flex flex-col min-h-screen items-center px-5 md:px-12 pt-12 pb-12 relative overflow-hidden bg-background text-on-surface lg:flex-row lg:justify-center lg:gap-12 lg:px-12 lg:pt-20 lg:pb-20">
       {/* Left Side - Branding & Preview */}
@@ -78,7 +113,7 @@ export function SignupPage() {
       {/* Right Side - Signup Form */}
       <div className="w-full max-w-sm lg:flex-1 lg:max-w-md">
         <div className="bg-white rounded-2xl p-6 shadow-lg shadow-primary/5 lg:p-8">
-          <form className="flex flex-col gap-4">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div className="text-center lg:text-left mb-2">
               <h2 className="font-headline-md text-on-surface font-bold lg:text-xl">
                 Crear Cuenta
@@ -89,22 +124,37 @@ export function SignupPage() {
             </div>
 
             <Input
-              label="NOMBRE COMPLETO"
+              label="NOMBRE"
               icon={<User size={20} />}
               placeholder="Juan Pérez"
               type="text"
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
+            />
+
+            <Input
+              label="APELLIDO"
+              icon={<User size={20} />}
+              placeholder="Juan Pérez"
+              type="text"
+              value={apellido}
+              onChange={(e) => setApellido(e.target.value)}
             />
             <Input
               label="CORREO ELECTRÓNICO"
               icon={<Mail size={20} />}
               placeholder="tu@email.com"
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <Input
               label="CONTRASEÑA"
               icon={<Lock size={20} />}
               placeholder="••••••••"
               type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               showPasswordToggle
             />
             <div className="mt-4">

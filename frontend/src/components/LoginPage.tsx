@@ -101,7 +101,7 @@ export function LoginPage() {
         <footer className="mt-6 text-center w-full lg:mt-8">
           <p className="font-body-sm text-on-surface-variant">
             ¿No tenés una cuenta?{" "}
-            <a className="text-primary font-semibold hover:underline" href="#">
+            <a className="text-primary font-semibold hover:underline" href="/SignupPage">
               Registrate
             </a>
           </p>
