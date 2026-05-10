@@ -74,7 +74,7 @@ namespace ConAlambreApi.Controllers
             };
             _context.Usuarios.Add(nuevoUsuario);
             _context.SaveChanges();
-            return Ok(new { Message = "Usuario registrado exitosamente." });
+            return Created();
         }
 
         // POST: api/Login/logout

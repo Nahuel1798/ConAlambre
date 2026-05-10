@@ -44,23 +44,21 @@ namespace ConAlambreApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> FindById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var categoria = await _context.Categorias.Where(s => s.Id == id).SingleOrDefaultAsync();
+            var categoria = await _context.Categorias.ProjectToType<CategoriaResponse>().Where(s => s.Id == id).SingleOrDefaultAsync();
             
             if (categoria == null) return NotFound();
 
-            return StatusCode(201, categoria.Adapt<CategoriaResponse>());
+            return Ok(categoria); 
         }
 
         [HttpGet]
-        public async Task<IActionResult> FindAll()
+        public async Task<IActionResult> GetAll()
         {
-            var categoria = await _context.Categorias.ToListAsync();
-            
-            if (categoria == null) return NotFound();
+            var categorias = await _context.Categorias.ProjectToType<CategoriaResponse>().ToListAsync();
 
-            return StatusCode(201, categoria.Adapt<CategoriaResponse>());
+            return Ok(categorias); 
         }
     }
 }
