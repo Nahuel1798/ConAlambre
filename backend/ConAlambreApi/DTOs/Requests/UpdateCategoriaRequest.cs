@@ -1,5 +1,5 @@
 namespace ConAlambreApi.DTOs.Requests{
-  public class CrearCategoriaRequest{
+  public class UpdateCategoriaRequest{
 
     public string Nombre {get; set;}
 

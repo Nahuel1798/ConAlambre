@@ -11,6 +11,7 @@ namespace ConAlambreApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class LoginController : ControllerBase
     {
         private readonly DataContext _context;
@@ -27,9 +28,9 @@ namespace ConAlambreApi.Controllers
         // POST: api/Login
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult Login(LoginResponse dto)
+        public ActionResult Login(LoginRequest request)
         {
-            var user = _context.Usuarios.FirstOrDefault(u => u.Email == dto.Email);
+            var user = _context.Usuarios.FirstOrDefault(u => u.Email == request.Email);
             if (user == null)
             {
                 return Unauthorized(new { Message = "Contraseña y email inválidos." });
@@ -37,7 +38,7 @@ namespace ConAlambreApi.Controllers
 
             bool passwordOk = _hashService.VerifyPassword(
                 user.Contrasena,
-                dto.Contrasena
+                request.Contrasena
             );
 
             if (!passwordOk)
@@ -46,35 +47,35 @@ namespace ConAlambreApi.Controllers
             }
 
             var token = _jwtTokenService.GenerateToken(user);
-            return Ok(new
+            return Ok(new AuthResponse
             {
                 Token = token,
-                UserResponse = user.Adapt<UsuarioResponse>()
+                Usuario = user.Adapt<UsuarioResponse>()
             });
         }
 
         // POST: api/Login/register
         [AllowAnonymous]
         [HttpPost("register")]
-        public ActionResult Register(UsuarioRegisterRequest dto)
+        public ActionResult Register(RegisterRequest request)
         {
-            var existe = _context.Usuarios.Any(u => u.Email == dto.Email);
+            var existe = _context.Usuarios.Any(u => u.Email == request.Email);
             if (existe)            {
                 return BadRequest(new { Message = "El email ya está registrado." });
             }
-            var nuevoUsuario = new Usuario
-            {
-                Nombre = dto.Nombre,
-                Apellido = dto.Apellido,
-                Email = dto.Email,
-                Contrasena = _hashService.HashPassword(dto.Contrasena),
-                Telefono = dto.Telefono,
-                Rol = "User",
-                Avatar = dto.Avatar
-            };
+            var nuevoUsuario = request.Adapt<Usuario>();
+            var contraseniaHasheada = _hashService.HashPassword(request.Contrasena);
+            nuevoUsuario.Contrasena = contraseniaHasheada;
+
             _context.Usuarios.Add(nuevoUsuario);
             _context.SaveChanges();
-            return Created();
+
+            var token = _jwtTokenService.GenerateToken(nuevoUsuario);
+            return Ok(new AuthResponse
+            {
+                Token = token,
+                Usuario = nuevoUsuario.Adapt<UsuarioResponse>()
+            });
         }
 
         // POST: api/Login/logout

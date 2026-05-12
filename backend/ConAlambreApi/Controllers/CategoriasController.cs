@@ -5,11 +5,13 @@ using Mapster;
 using ConAlambreApi.DTOs.Responses;
 using ConAlambreApi.DTOs.Requests;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ConAlambreApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class CategoriasController : ControllerBase
     {
         private readonly DataContext _context;
@@ -20,7 +22,8 @@ namespace ConAlambreApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CrearCategoriaRequest request)
+    [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Create(CreateCategoriaRequest request)
         {
             var categoria = request.Adapt<Categoria>();
 
@@ -32,7 +35,8 @@ namespace ConAlambreApi.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> Update(int id, ActualizarCategoriaRequest request)
+    [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Update(int id, UpdateCategoriaRequest request)
         {
             var categoria = await _context.Categorias.Where(s => s.Id == id).SingleOrDefaultAsync();
             categoria.Descripcion = request.Descripcion != null ? request.Descripcion : categoria.Descripcion;

@@ -5,11 +5,13 @@ using Mapster;
 using ConAlambreApi.DTOs.Responses;
 using ConAlambreApi.DTOs.Requests;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ConAlambreApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class ServiciosController : ControllerBase
     {
         private readonly DataContext _context;
@@ -20,7 +22,7 @@ namespace ConAlambreApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CrearServicioRequest request)
+        public async Task<IActionResult> Create(CreateServicioRequest request)
         {
             var servicio = request.Adapt<Servicio>();
 
@@ -32,7 +34,7 @@ namespace ConAlambreApi.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> Update(int id, ActualizarServicioRequest request)
+        public async Task<IActionResult> Update(int id, UpdateServicioRequest request)
         {
             var servicio = await _context.Servicios.Where(s => s.Id == id).SingleOrDefaultAsync();
             servicio.Descripcion = request.Descripcion != null ? request.Descripcion : servicio.Descripcion;

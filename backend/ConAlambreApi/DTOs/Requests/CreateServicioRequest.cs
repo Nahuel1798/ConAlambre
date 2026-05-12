@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ConAlambreApi.DTOs.Requests
 {
   
-  public class CrearServicioRequest{
+  public class CreateServicioRequest{
 
     [Required]
     public string Nombre {get; set;}

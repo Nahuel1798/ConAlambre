@@ -1,7 +1,7 @@
 namespace ConAlambreApi.DTOs.Requests
 {
   
-  public class ActualizarServicioRequest{
+  public class UpdateServicioRequest{
 
     public string Nombre {get; set;}
 

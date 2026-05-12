@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 namespace ConAlambreApi.DTOs.Requests
 {
-    public class UsuarioRegisterRequest
+    public class RegisterRequest
     {
         [Required]
         public required string Nombre { get; set; }

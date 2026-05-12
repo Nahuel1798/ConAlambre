@@ -22,7 +22,7 @@ namespace ConAlambreApi.Controllers
         // Trae todos los usuarios
         // GET: api/Usuarios/todos
         [HttpGet("todos")]
-        public ActionResult GetUsuarios()
+        public ActionResult GetAll()
         {
             var usuarios = _context.Usuarios.Select(u => new UsuarioResponse
             {
@@ -40,7 +40,7 @@ namespace ConAlambreApi.Controllers
         // Trae un usuario específico
         // GET: api/Usuarios/5
         [HttpGet("{id}")]
-        public ActionResult GetUsuario(int id)
+        public ActionResult GetById(int id)
         {
             var usuario = _context.Usuarios.Where(u => u.Id == id).Select(u => new UsuarioResponse
             {
@@ -59,32 +59,10 @@ namespace ConAlambreApi.Controllers
             return Ok(usuario);
         }
 
-        // POST: api/Usuarios/create
-        [HttpPost ("create")]
-        //[Authorize(Roles = "Admin")]
-        [AllowAnonymous]
-        public ActionResult CreateUsuario(UsuarioRegisterRequest dto)
-        {
-            var nuevoUsuario = new Usuario
-            {
-                Nombre = dto.Nombre,
-                Apellido = dto.Apellido,
-                Email = dto.Email,
-                Contrasena = dto.Contrasena,
-                Telefono = dto.Telefono,
-                Rol = dto.Rol,
-                Avatar = dto.Avatar
-            };
-            _context.Usuarios.Add(nuevoUsuario);
-            _context.SaveChanges();
-
-            return Ok(new { Message = "Usuario creado exitosamente." });
-        }
-
         // Actualiza un usuario existente
         // PUT: api/Usuarios/5
         [HttpPut("{id}")]
-        public IActionResult UpdateUsuario(int id, UsuarioUpdateRequest dto)
+        public IActionResult Update(int id, UpdateUsuarioRequest dto)
         {
             var usuario = _context.Usuarios.Find(id);
             if (usuario == null)
@@ -104,7 +82,7 @@ namespace ConAlambreApi.Controllers
         // DELETE: api/Usuarios/5
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
-        public IActionResult DeleteUsuario(int id)
+        public IActionResult Delete(int id)
         {
             var usuario = _context.Usuarios.Find(id);
 
