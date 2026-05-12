@@ -37,50 +37,14 @@ const mockCategorias: CategoriaResponse[] = [
   { id: 6, nombre: "Gasista", descripcion: "Instalaciones y servicios de gas" },
 ];
 
-const mockServicios: ServicioResponse[] = [
-  {
-    id: 1,
-    nombre: "Instalación de aire split",
-    titulo: "Colocación de Split frío/cálido",
-    descripcion:
-      "Instalación completa incluye soporte, interconexión y prueba de funcionamiento",
-    precio: 45000,
-    ubicacion: "Capital Federal",
-    idUsuario: 1,
-    idCategoria: 2,
-  },
-  {
-    id: 2,
-    nombre: "Pintura de paredes",
-    titulo: "Pintura interior completa",
-    descripcion:
-      "Preparación de paredes, imprimación y dos manos de pintura látex",
-    precio: 35000,
-    ubicacion: "La Plata",
-    idUsuario: 2,
-    idCategoria: 3,
-  },
-  {
-    id: 3,
-    nombre: "Reparación de pérdida",
-    titulo: "Reparación de pérdida completa",
-    descripcion: "Arreglo de canillas, llaves de paso y pérdida en tanques",
-    precio: 18000,
-    ubicacion: "Córdoba",
-    idUsuario: 3,
-    idCategoria: 1,
-  },
-];
-
 // TODO: Esto debe venir del backend + JOIN con prestador para mostrar nombre/avatar
 // El backend actual no incluye esos campos en ServicioResponse
 
 export function ClienteDashboardPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [servicios, setServicios] = useState<ServicioResponse[]>([]);
-  const [categorias, setCategorias] = useState<CategoriaResponse[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [, setLoading] = useState(true);
+  const [, setError] = useState<string | null>(null);
 
   const fetchServicios = async () => {
     try {

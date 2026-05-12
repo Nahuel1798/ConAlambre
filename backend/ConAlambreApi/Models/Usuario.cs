@@ -14,8 +14,8 @@ namespace ConAlambreApi.Models
       public string Contrasena {get; set;}
 
       public string Telefono {get; set;}
-      public string Rol {get; set;}
+      public string Rol {get; set;} = string.Empty;
 
-      public string Avatar {get; set;}
+      public string? Avatar {get; set;}
     }
 }

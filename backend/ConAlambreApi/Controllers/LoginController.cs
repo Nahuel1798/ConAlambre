@@ -64,6 +64,7 @@ namespace ConAlambreApi.Controllers
                 return BadRequest(new { Message = "El email ya está registrado." });
             }
             var nuevoUsuario = request.Adapt<Usuario>();
+            nuevoUsuario.Rol = string.Empty;
             var contraseniaHasheada = _hashService.HashPassword(request.Contrasena);
             nuevoUsuario.Contrasena = contraseniaHasheada;
 

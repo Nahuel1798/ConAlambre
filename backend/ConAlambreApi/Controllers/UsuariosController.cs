@@ -73,6 +73,7 @@ namespace ConAlambreApi.Controllers
             usuario.Apellido = dto.Apellido ?? usuario.Apellido;
             usuario.Telefono = dto.Telefono ?? usuario.Telefono;
             usuario.Avatar = dto.avatar ?? usuario.Avatar;
+            usuario.Rol = dto.Rol ?? usuario.Rol;
 
             _context.SaveChanges();
 

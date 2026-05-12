@@ -8,5 +8,5 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   token: string;
-  usuarioResponse: UsuarioResponse;
+  usuario: UsuarioResponse;
 }

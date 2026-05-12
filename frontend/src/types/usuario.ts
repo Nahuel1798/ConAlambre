@@ -14,6 +14,14 @@ export interface UsuarioRegisterRequest {
   email: string;
   contrasena: string;
   telefono: string;
-  rol: string;
-  avatar: string;
+  rol?: string;
+  avatar?: string;
+}
+
+export interface UpdateUsuarioRequest {
+  nombre?: string;
+  apellido?: string;
+  telefono?: string;
+  avatar?: string;
+  rol?: string;
 }

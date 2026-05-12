@@ -4,6 +4,7 @@ import { loginService } from "../services/loginService";
 import { Input } from "./ui/Input";
 import { Button } from "./ui/Button";
 import { Network, User, Mail, Lock, ArrowRight } from "lucide-react";
+import { setAuthToken } from "../client/api";
 
 export function SignupPage() {
 
@@ -11,27 +12,22 @@ export function SignupPage() {
   const [apellido, setApellido] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [telefono, setTelefono] = useState("");
-  const [rol, setRol] = useState("Cliente");
-  const [avatar, setAvatar] = useState("https://example.com/avatar.jpg");
+  const [telefono] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await loginService.signup({
+      const response = await loginService.signup({
         nombre,
         apellido,
         email,
         contrasena: password,
         telefono,
-        rol: rol,
-        avatar: avatar,
       });
 
-      console.log("Registro exitoso");
-
-      navigate("/");
+      setAuthToken(response.data.token);
+      navigate("/seleccionar-rol", { state: { userId: response.data.usuario.id } });
       
     } catch (error) {
       console.error("Error de registro:", error);

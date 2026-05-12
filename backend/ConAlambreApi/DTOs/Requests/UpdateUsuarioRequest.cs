@@ -6,5 +6,6 @@ namespace ConAlambreApi.DTOs.Requests
         public string? Apellido { get; set; }
         public string? Telefono { get; set; }
         public string? avatar { get; set; }
+        public string? Rol { get; set; }
     }
 }
