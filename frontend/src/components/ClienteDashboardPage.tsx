@@ -78,15 +78,27 @@ const mockServicios: ServicioResponse[] = [
 export function ClienteDashboardPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [servicios, setServicios] = useState<ServicioResponse[]>([]);
+  const [categorias, setCategorias] = useState<CategoriaResponse[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchServicios = async () => {
     try {
-      setServicios(await servicioService.getAll());
-    } catch (error) {}
+      setLoading(true);
+      const data = await servicioService.getAll();
+      setServicios(data);
+    } catch (error) {
+      console.error("Error fetching servicios:", error);
+      setError("No se pudieron cargar los servicios. Por favor, intentá de nuevo más tarde.");
+    } finally {
+      setLoading(false);
+    }
   };
+
   useEffect(() => {
     fetchServicios();
   }, []);
+
   const handleServiceClick = (servicio: ServicioResponse) => {
     console.log("Service clicked:", servicio.id);
     // TODO: Navigate to service detail
@@ -96,7 +108,7 @@ export function ClienteDashboardPage() {
     console.log("Post job clicked");
     // TODO: Open post job modal
   };
-
+  
   return (
     <>
       {/* Header */}

@@ -4,6 +4,7 @@ import { loginService } from "../services/loginService";
 import { Input } from "./ui/Input";
 import { Button } from "./ui/Button";
 import { Network, Mail, Lock, LogIn } from "lucide-react";
+import { setAuthToken } from "../client/api";
 
 export function LoginPage() {
   
@@ -21,7 +22,7 @@ export function LoginPage() {
 
       console.log("Login exitoso:", response);
 
-      localStorage.setItem("token", response.data.token);
+      setAuthToken(response.data.token);
 
       navigate("/dashboard");
 
