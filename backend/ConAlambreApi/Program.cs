@@ -97,6 +97,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseStaticFiles();
+
 // Habilitar autenticación y autorización
 app.UseAuthentication();
 app.UseAuthorization();

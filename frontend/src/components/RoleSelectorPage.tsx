@@ -30,19 +30,11 @@ export function RoleSelectorPage() {
 
     try {
       await usuarioService.updateUser(userId, { rol });
-      navigate("/dashboard");
+      navigate("/completar-perfil", { state: { userId, rol } });
     } catch {
       setLoading(null);
       setError("Ocurrió un error al seleccionar el rol.");
     }
-  };
-
-  const handleOmitir = async () => {
-    try {
-      await usuarioService.updateUser(userId, { rol: "Cliente" });
-    } catch {}
-
-    navigate("/dashboard");
   };
 
   return (
@@ -183,19 +175,12 @@ export function RoleSelectorPage() {
           )}
 
           {/* FOOTER ACTIONS */}
-          <div className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="mt-10 flex items-center">
             <button
               onClick={() => navigate("/SignupPage")}
               className="text-slate-600 hover:text-slate-900 transition"
             >
               ← Volver al registro
-            </button>
-
-            <button
-              onClick={handleOmitir}
-              className="px-5 py-3 rounded-xl bg-white border hover:bg-slate-100 transition"
-            >
-              Omitir por ahora
             </button>
           </div>
         </div>

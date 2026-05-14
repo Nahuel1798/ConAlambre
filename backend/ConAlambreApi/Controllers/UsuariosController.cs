@@ -80,6 +80,40 @@ namespace ConAlambreApi.Controllers
             return Ok(new { Message = "Usuario actualizado exitosamente." });
         }
 
+        // POST: api/Usuarios/5/avatar
+        [HttpPost("{id}/avatar")]
+        public async Task<IActionResult> UploadAvatar(int id, IFormFile file)
+        {
+            var usuario = await _context.Usuarios.FindAsync(id);
+            if (usuario == null) return NotFound();
+
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".webp" };
+            var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+            
+            if (!allowedExtensions.Contains(extension))
+                return BadRequest(new { Message = "Formato de imagen no válido. Usá JPG, PNG o WebP." });
+
+            if (file.Length > 5 * 1024 * 1024)
+                return BadRequest(new { Message = "La imagen no puede superar los 5MB." });
+
+            var fileName = $"{id}_{Guid.NewGuid()}{extension}";
+            var uploadsDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "avatars");
+            Directory.CreateDirectory(uploadsDir);
+            
+            var filePath = Path.Combine(uploadsDir, fileName);
+            
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            var avatarUrl = $"/uploads/avatars/{fileName}";
+            usuario.Avatar = avatarUrl;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { avatarUrl });
+        }
+
         // DELETE: api/Usuarios/5
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
