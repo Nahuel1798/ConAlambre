@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, use } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   ArrowLeft,
@@ -12,6 +12,9 @@ import {
 } from "lucide-react";
 import { usuarioService } from "../services/usuarioService";
 import { perfilProfesionalService } from "../services/perfilProfesionalService";
+import type { CategoriaResponse } from "../types/categoria";
+import { servicioService } from "../services/servicioService";
+
 
 const CATEGORIAS = [
   { id: 1, nombre: "Electricity", icon: "⚡" },
@@ -31,6 +34,8 @@ export function CompletarPerfilPage() {
   const userId = state?.userId;
   const rol = state?.rol;
 
+  const [categorias, setCategorias] = useState<CategoriaResponse[]>([]);
+
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
@@ -39,6 +44,26 @@ export function CompletarPerfilPage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [, setLoading] = useState(true);
+
+
+  const fetchCategorias = async () => {
+      try {
+        setLoading(true);
+        const data = await servicioService.getAllCategorias();
+        setCategorias(data);
+        console.log("Categorías obtenidas:", data);
+      } catch (error) {
+        console.error("Error fetching categorías:", error);
+        setError("No se pudieron cargar las categorías. Por favor, intentá de nuevo más tarde."); 
+      } finally {
+        setLoading(false);
+      }
+    };
+
+  useEffect(() => {
+    fetchCategorias();
+  }, []);
 
   // Revoke object URL on cleanup to avoid memory leaks
   useEffect(() => {
@@ -234,7 +259,7 @@ export function CompletarPerfilPage() {
                 Primary Trade
               </label>
               <div className="grid grid-cols-2 gap-4">
-                {CATEGORIAS.map((cat) => {
+                {categorias.map((cat) => {
                   const isSelected = selectedCategories.includes(cat.id);
                   return (
                     <button
@@ -247,7 +272,7 @@ export function CompletarPerfilPage() {
                           : "bg-white border-outline-variant/30 text-on-surface-variant hover:border-primary-container/50 shadow-sm"
                       }`}
                     >
-                      <span className="text-[32px] mb-2">{cat.icon}</span>
+                      {/*<span className="text-[32px] mb-2">{cat.icon}</span> */}
                       <span className="font-label-sm">{cat.nombre}</span>
                     </button>
                   );

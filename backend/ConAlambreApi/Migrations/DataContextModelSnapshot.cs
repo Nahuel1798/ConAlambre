@@ -21,6 +21,21 @@ namespace ConAlambreApi.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("CategoriaPerfilProfesional", b =>
+                {
+                    b.Property<int>("CategoriasId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PerfilProfesionalId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("CategoriasId", "PerfilProfesionalId");
+
+                    b.HasIndex("PerfilProfesionalId");
+
+                    b.ToTable("PerfilProfesionalCategoria", (string)null);
+                });
+
             modelBuilder.Entity("ConAlambreApi.Models.Categoria", b =>
                 {
                     b.Property<int>("Id")
@@ -73,6 +88,36 @@ namespace ConAlambreApi.Migrations
                     b.HasIndex("IdUsuario");
 
                     b.ToTable("Pedidos");
+                });
+
+            modelBuilder.Entity("ConAlambreApi.Models.PerfilProfesional", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Experiencia")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Titulo")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("PerfilesProfesionales");
                 });
 
             modelBuilder.Entity("ConAlambreApi.Models.Rol", b =>
@@ -147,7 +192,6 @@ namespace ConAlambreApi.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Avatar")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Contrasena")
@@ -175,11 +219,37 @@ namespace ConAlambreApi.Migrations
                     b.ToTable("Usuarios");
                 });
 
+            modelBuilder.Entity("CategoriaPerfilProfesional", b =>
+                {
+                    b.HasOne("ConAlambreApi.Models.Categoria", null)
+                        .WithMany()
+                        .HasForeignKey("CategoriasId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ConAlambreApi.Models.PerfilProfesional", null)
+                        .WithMany()
+                        .HasForeignKey("PerfilProfesionalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ConAlambreApi.Models.Pedido", b =>
                 {
                     b.HasOne("ConAlambreApi.Models.Usuario", "Usuario")
                         .WithMany()
                         .HasForeignKey("IdUsuario")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("ConAlambreApi.Models.PerfilProfesional", b =>
+                {
+                    b.HasOne("ConAlambreApi.Models.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -1,17 +1,14 @@
 import { api } from "../client/api";
 import type { ServicioResponse } from "../types/servicio";
+import type { CategoriaResponse } from "../types/categoria";
 
 export const servicioService = {
   getAll: async () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      throw new Error("No se encontró el token de autenticación.");
-    }
-    const response = await api.get<ServicioResponse[]>("/api/servicios", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await api.get<ServicioResponse[]>("/api/servicios");
     return response.data;
   },
+  getAllCategorias: async () => {
+    const response = await api.get<CategoriaResponse[]>("/api/categorias");
+    return response.data;
+  }
 };

@@ -10,39 +10,11 @@ import type { CategoriaResponse } from "../types/categoria";
 import type { ServicioResponse } from "../types/servicio";
 import { servicioService } from "../services/servicioService";
 
-// Mock data - en Producción vendría de un hook o API
-// NOTA: El backend NO tiene rating, imagen, prestador anidado — eso falta implementar
-const mockCategorias: CategoriaResponse[] = [
-  {
-    id: 1,
-    nombre: "Plomería",
-    descripcion: "Reparaciones y instalaciones de agua",
-  },
-  {
-    id: 2,
-    nombre: "Electricista",
-    descripcion: "Instalaciones y reparaciones eléctricas",
-  },
-  {
-    id: 3,
-    nombre: "Pintura",
-    descripcion: "Pintura de interiores y exteriores",
-  },
-  { id: 4, nombre: "Albañilería", descripcion: "Construcción y refacciones" },
-  {
-    id: 5,
-    nombre: "Jardinería",
-    descripcion: "Mantenimiento de espacios verdes",
-  },
-  { id: 6, nombre: "Gasista", descripcion: "Instalaciones y servicios de gas" },
-];
-
-// TODO: Esto debe venir del backend + JOIN con prestador para mostrar nombre/avatar
-// El backend actual no incluye esos campos en ServicioResponse
 
 export function ClienteDashboardPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [servicios, setServicios] = useState<ServicioResponse[]>([]);
+  const [categorias, setCategorias] = useState<CategoriaResponse[]>([]);
   const [, setLoading] = useState(true);
   const [, setError] = useState<string | null>(null);
 
@@ -58,9 +30,23 @@ export function ClienteDashboardPage() {
       setLoading(false);
     }
   };
+  const fetchCategorias = async () => {
+    try {
+      setLoading(true);
+      const data = await servicioService.getAllCategorias();
+      setCategorias(data);
+      console.log("Categorías obtenidas:", data);
+    } catch (error) {
+      console.error("Error fetching categorías:", error);
+      setError("No se pudieron cargar las categorías. Por favor, intentá de nuevo más tarde."); 
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     fetchServicios();
+    fetchCategorias();
   }, []);
 
   const handleServiceClick = (servicio: ServicioResponse) => {
@@ -106,7 +92,7 @@ export function ClienteDashboardPage() {
             </button>
           </div>
           <div className="flex overflow-x-auto gap-4 px-5 md:px-12 hide-scrollbar py-2">
-            {mockCategorias.map((categoria) => (
+            {categorias.map((categoria) => (
               <CategoriaChip key={categoria.id} categoria={categoria} />
             ))}
           </div>

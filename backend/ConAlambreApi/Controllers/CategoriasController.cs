@@ -22,7 +22,7 @@ namespace ConAlambreApi.Controllers
         }
 
         [HttpPost]
-    [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(CreateCategoriaRequest request)
         {
             var categoria = request.Adapt<Categoria>();
@@ -35,7 +35,7 @@ namespace ConAlambreApi.Controllers
         }
 
         [HttpPatch("{id}")]
-    [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(int id, UpdateCategoriaRequest request)
         {
             var categoria = await _context.Categorias.Where(s => s.Id == id).SingleOrDefaultAsync();
