@@ -9,14 +9,12 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-
 import { Button } from "./ui/Button";
 import { BarraBusqueda } from "./dashboard/BarraBusqueda";
 import { CategoriaChip } from "./dashboard/CategoriaChip";
 import { ServicioCard } from "./dashboard/ServicioCard";
 import { BottomNav } from "./dashboard/BottomNav";
 import { FAB } from "./dashboard/FAB";
-
 
 import type { CategoriaResponse } from "../types/categoria";
 import type { ServicioResponse } from "../types/servicio";
@@ -59,7 +57,7 @@ export function ClienteDashboardPage() {
       console.error("Error fetching servicios:", error);
 
       setError(
-        "No se pudieron cargar los servicios. Por favor, intentá de nuevo más tarde."
+        "No se pudieron cargar los servicios. Por favor, intentá de nuevo más tarde.",
       );
     } finally {
       setLoading(false);
@@ -79,7 +77,7 @@ export function ClienteDashboardPage() {
       console.error("Error fetching categorías:", error);
 
       setError(
-        "No se pudieron cargar las categorías. Por favor, intentá de nuevo más tarde."
+        "No se pudieron cargar las categorías. Por favor, intentá de nuevo más tarde.",
       );
     } finally {
       setLoading(false);
@@ -131,7 +129,6 @@ export function ClienteDashboardPage() {
     <>
       {/* Header */}
       <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm border-b border-gray-100 flex justify-between items-center w-full px-5 md:px-12 py-4">
-        
         {/* Logo */}
         <div className="flex items-center gap-4">
           <span className="font-headline-md text-2xl font-bold text-primary">
@@ -141,7 +138,6 @@ export function ClienteDashboardPage() {
 
         {/* Right Section */}
         <div className="flex items-center gap-4">
-          
           {/* Notifications */}
           <button className="w-11 h-11 flex items-center justify-center rounded-full hover:bg-gray-100 transition-all duration-200 active:scale-95">
             <Bell size={24} className="text-primary" />
@@ -156,8 +152,9 @@ export function ClienteDashboardPage() {
               <div className="w-11 h-11 rounded-full overflow-hidden border-2 border-primary shadow-sm">
                 <img
                   src={
-                    usuario?.avatar ||
-                    "https://ui-avatars.com/api/?name=Usuario"
+                    usuario?.avatar
+                      ? `http://localhost:5120${usuario.avatar}`
+                      : "https://ui-avatars.com/api/?name=Usuario"
                   }
                   alt="Avatar"
                   className="w-full h-full object-cover"
@@ -175,7 +172,6 @@ export function ClienteDashboardPage() {
             {/* Dropdown */}
             {profileOpen && (
               <div className="absolute right-0 mt-3 w-64 bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-                
                 {/* User Info */}
                 <div className="p-5 border-b border-gray-100">
                   <div className="flex items-center gap-3">
@@ -205,7 +201,6 @@ export function ClienteDashboardPage() {
 
                 {/* Menu */}
                 <div className="p-2">
-                  
                   {/* Perfil */}
                   <button
                     onClick={handleProfile}
@@ -213,9 +208,7 @@ export function ClienteDashboardPage() {
                   >
                     <User size={18} />
 
-                    <span className="font-medium">
-                      Mi perfil
-                    </span>
+                    <span className="font-medium">Mi perfil</span>
                   </button>
 
                   {/* Logout */}
@@ -225,9 +218,7 @@ export function ClienteDashboardPage() {
                   >
                     <LogOut size={18} />
 
-                    <span className="font-medium">
-                      Cerrar sesión
-                    </span>
+                    <span className="font-medium">Cerrar sesión</span>
                   </button>
                 </div>
               </div>
@@ -238,19 +229,13 @@ export function ClienteDashboardPage() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto">
-        
         {/* Search */}
-        <BarraBusqueda
-          value={searchQuery}
-          onChange={setSearchQuery}
-        />
+        <BarraBusqueda value={searchQuery} onChange={setSearchQuery} />
 
         {/* Categories */}
         <section className="mt-10">
           <div className="flex items-center justify-between px-5 md:px-12 mb-4">
-            <h2 className="text-2xl font-bold text-gray-900">
-              Categorías
-            </h2>
+            <h2 className="text-2xl font-bold text-gray-900">Categorías</h2>
 
             <button className="text-primary font-medium hover:underline transition-all">
               Ver todas
@@ -259,17 +244,13 @@ export function ClienteDashboardPage() {
 
           <div className="flex overflow-x-auto gap-4 px-5 md:px-12 hide-scrollbar py-2">
             {categorias.map((categoria) => (
-              <CategoriaChip
-                key={categoria.id}
-                categoria={categoria}
-              />
+              <CategoriaChip key={categoria.id} categoria={categoria} />
             ))}
           </div>
         </section>
 
         {/* Featured Services */}
         <section className="mt-16 px-5 md:px-12">
-          
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-gray-900">
               Servicios destacados
@@ -299,43 +280,33 @@ export function ClienteDashboardPage() {
 
         {/* CTA Banner */}
         <section className="mt-16 px-5 md:px-12 mb-20">
-          
           <div className="bg-primary p-10 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-10 overflow-hidden relative shadow-xl">
-            
             <div className="z-10 text-center md:text-left">
               <h2 className="text-4xl font-bold text-white mb-4">
                 ¿No encontrás lo que necesitás?
               </h2>
 
               <p className="text-white/80 text-lg mb-6 max-w-xl">
-                Publicá un trabajo y hacé que profesionales
-                capacitados se postulen con sus mejores
-                ofertas.
+                Publicá un trabajo y hacé que profesionales capacitados se
+                postulen con sus mejores ofertas.
               </p>
 
-              <Button variant="secondary">
-                Publicar trabajo
-              </Button>
+              <Button variant="secondary">Publicar trabajo</Button>
             </div>
 
             <div className="relative md:absolute md:right-0 md:top-0 h-40 md:h-full w-full md:w-1/3 z-0 opacity-20 pointer-events-none">
-              <img
-                alt="Decoración"
-                className="w-full h-full object-cover"
-              />
+              <img alt="Decoración" className="w-full h-full object-cover" />
             </div>
           </div>
         </section>
       </main>
 
       {/* FAB */}
-      <FAB
-        label="Publicar trabajo"
-        onClick={handlePostJob}
-      />
+      <FAB label="Publicar trabajo" onClick={handlePostJob} />
 
       {/* Bottom Navigation */}
       <BottomNav />
     </>
   );
 }
+

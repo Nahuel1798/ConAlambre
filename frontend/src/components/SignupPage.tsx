@@ -7,7 +7,6 @@ import { Network, User, Mail, Lock, ArrowRight } from "lucide-react";
 import { setAuthToken } from "../client/api";
 
 export function SignupPage() {
-
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
   const [email, setEmail] = useState("");
@@ -27,8 +26,10 @@ export function SignupPage() {
       });
 
       setAuthToken(response.data.token);
-      navigate("/seleccionar-rol", { state: { userId: response.data.usuario.id } });
-      
+      localStorage.setItem("usuario", JSON.stringify(response.data.usuario));
+      navigate("/seleccionar-rol", {
+        state: { userId: response.data.usuario.id },
+      });
     } catch (error) {
       console.error("Error de registro:", error);
     }
@@ -78,7 +79,9 @@ export function SignupPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               <div className="absolute bottom-3 left-3 flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-secondary" />
-                <span className="font-label-sm text-white text-xs">Proyecto</span>
+                <span className="font-label-sm text-white text-xs">
+                  Proyecto
+                </span>
               </div>
             </div>
 
@@ -183,3 +186,4 @@ export function SignupPage() {
     </main>
   );
 }
+

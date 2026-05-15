@@ -109,7 +109,10 @@ export function CompletarPerfilPage() {
     try {
       // 1. Upload avatar if selected
       if (avatarFile) {
-        await usuarioService.uploadAvatar(userId, avatarFile);
+        const response = await usuarioService.uploadAvatar(userId, avatarFile);
+        const stored = JSON.parse(localStorage.getItem("usuario") || "{}");
+        stored.avatar = response.data.avatarUrl;
+        localStorage.setItem("usuario", JSON.stringify(stored));
       }
 
       // 2. Create professional profile or navigate
