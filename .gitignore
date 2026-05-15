@@ -42,10 +42,13 @@ appsettings.Development.json
 
 # ConAlambre project specific
 backend/ConAlambreApi/Migrations/
+backend/ConAlambreApi/wwwroot/
 .atl/
 resources_con_alambre/
 .agents/
 skills-lock.json
+openspec/
+SDD_EXPLORATION_COMPLETAR_PERFIL.md
 
 # Documentation
 DESIGN.md
