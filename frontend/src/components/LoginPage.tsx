@@ -13,23 +13,35 @@ export function LoginPage() {
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const response = await loginService.login({
-        email,
-        contrasena: password,
-      });
+  e.preventDefault();
 
-      console.log("Login exitoso:", response);
+  try {
+    const response = await loginService.login({
+      email,
+      contrasena: password,
+    });
 
-      setAuthToken(response.data.token);
+    console.log("Login exitoso:", response);
 
-      navigate("/dashboard");
+    // Guardar token
+    setAuthToken(response.data.token);
 
-    } catch (error) {
-      console.error("Error de login:", error);
-    }
-  };
+    localStorage.setItem(
+      "token",
+      response.data.token
+    );
+
+    // Guardar usuario
+    localStorage.setItem(
+      "usuario",
+      JSON.stringify(response.data.usuario)
+    );
+
+    navigate("/dashboard");
+  } catch (error) {
+    console.error("Error de login:", error);
+  }
+};
 
   return (
     <main className="flex flex-col min-h-screen items-center px-5 md:px-12 pt-12 pb-12 relative overflow-hidden bg-background text-on-surface lg:flex-row lg:justify-center lg:gap-12 lg:px-12 lg:pt-20 lg:pb-20">
