@@ -86,6 +86,9 @@ export function ClienteDashboardPage() {
 
   useEffect(() => {
     fetchServicios();
+  }, []);
+
+  useEffect(() => {
     fetchCategorias();
   }, []);
 
@@ -309,4 +312,3 @@ export function ClienteDashboardPage() {
     </>
   );
 }
-

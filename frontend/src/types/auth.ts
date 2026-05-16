@@ -6,7 +6,8 @@ export interface LoginRequest {
   contrasena: string;
 }
 
-export interface LoginResponse {
+export interface AuthResponse {
   token: string;
   usuario: UsuarioResponse;
 }
+

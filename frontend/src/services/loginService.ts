@@ -1,9 +1,10 @@
 import { api } from "../client/api";
-import type { LoginRequest, LoginResponse } from "../types/auth";
-import type { UsuarioRegisterRequest } from "../types/usuario";
+import type { AuthResponse, LoginRequest } from "../types/auth";
+import type { RegisterRequest } from "../types/usuario";
 
 export const loginService = {
-  login: (request: LoginRequest) => api.post<LoginResponse>("/Api/login", request),
-  signup: (request: UsuarioRegisterRequest) => api.post<LoginResponse>("/Api/login/register", request),
+  login: (request: LoginRequest) =>
+    api.post<AuthResponse>("/api/auth/login", request),
+  signup: (request: RegisterRequest) =>
+    api.post<AuthResponse>("/api/auth/register", request),
 };
-

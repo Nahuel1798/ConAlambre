@@ -8,7 +8,7 @@ export interface UsuarioResponse {
   avatar: string;
 }
 
-export interface UsuarioRegisterRequest {
+export interface RegisterRequest {
   nombre: string;
   apellido: string;
   email: string;
@@ -25,3 +25,4 @@ export interface UpdateUsuarioRequest {
   avatar?: string;
   rol?: string;
 }
+

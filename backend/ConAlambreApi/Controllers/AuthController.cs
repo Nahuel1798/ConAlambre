@@ -1,24 +1,28 @@
 using ConAlambreApi.Data;
+using ConAlambreApi.DTOs.Requests;
 using ConAlambreApi.DTOs.Responses;
 using ConAlambreApi.Models;
-using ConAlambreApi.DTOs.Requests;
 using ConAlambreApi.Service;
+using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Mapster;
 
 namespace ConAlambreApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
-    public class LoginController : ControllerBase
+    public class AuthController : ControllerBase
     {
         private readonly DataContext _context;
         private readonly JwtTokenService _jwtTokenService;
         private readonly HashService _hashService;
 
-        public LoginController(DataContext context, JwtTokenService jwtTokenService, HashService hashService)
+        public AuthController(
+            DataContext context,
+            JwtTokenService jwtTokenService,
+            HashService hashService
+        )
         {
             _context = context;
             _jwtTokenService = jwtTokenService;
@@ -36,10 +40,7 @@ namespace ConAlambreApi.Controllers
                 return Unauthorized(new { Message = "Contraseña y email inválidos." });
             }
 
-            bool passwordOk = _hashService.VerifyPassword(
-                user.Contrasena,
-                request.Contrasena
-            );
+            bool passwordOk = _hashService.VerifyPassword(user.Contrasena, request.Contrasena);
 
             if (!passwordOk)
             {
@@ -47,11 +48,7 @@ namespace ConAlambreApi.Controllers
             }
 
             var token = _jwtTokenService.GenerateToken(user);
-            return Ok(new AuthResponse
-            {
-                Token = token,
-                Usuario = user.Adapt<UsuarioResponse>()
-            });
+            return Ok(new AuthResponse { Token = token, Usuario = user.Adapt<UsuarioResponse>() });
         }
 
         // POST: api/Login/register
@@ -60,7 +57,8 @@ namespace ConAlambreApi.Controllers
         public ActionResult Register(RegisterRequest request)
         {
             var existe = _context.Usuarios.Any(u => u.Email == request.Email);
-            if (existe)            {
+            if (existe)
+            {
                 return BadRequest(new { Message = "El email ya está registrado." });
             }
             var nuevoUsuario = request.Adapt<Usuario>();
@@ -72,11 +70,9 @@ namespace ConAlambreApi.Controllers
             _context.SaveChanges();
 
             var token = _jwtTokenService.GenerateToken(nuevoUsuario);
-            return Ok(new AuthResponse
-            {
-                Token = token,
-                Usuario = nuevoUsuario.Adapt<UsuarioResponse>()
-            });
+            return Ok(
+                new AuthResponse { Token = token, Usuario = nuevoUsuario.Adapt<UsuarioResponse>() }
+            );
         }
 
         // POST: api/Login/logout

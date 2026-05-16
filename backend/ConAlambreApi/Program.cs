@@ -13,6 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
 // Servicios
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
 builder.Services.AddScoped<GlobalExceptionFilter>();
 builder.Services.AddControllers(options => options.Filters.AddService<GlobalExceptionFilter>());
 
