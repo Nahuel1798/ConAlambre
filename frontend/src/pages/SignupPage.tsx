@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginService } from "../services/loginService";
-import { Input } from "./ui/Input";
-import { Button } from "./ui/Button";
+import { Input } from "../components/ui/Input";
+import { Button } from "../components/ui/Button";
 import { Network, User, Mail, Lock, ArrowRight } from "lucide-react";
 import { setAuthToken } from "../client/api";
 
@@ -186,4 +186,3 @@ export function SignupPage() {
     </main>
   );
 }
-

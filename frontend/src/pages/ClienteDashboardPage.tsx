@@ -9,12 +9,12 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-import { Button } from "./ui/Button";
-import { BarraBusqueda } from "./dashboard/BarraBusqueda";
-import { CategoriaChip } from "./dashboard/CategoriaChip";
-import { ServicioCard } from "./dashboard/ServicioCard";
-import { BottomNav } from "./dashboard/BottomNav";
-import { FAB } from "./dashboard/FAB";
+import { Button } from "../components/ui/Button";
+import { BarraBusqueda } from "../components/dashboard/BarraBusqueda";
+import { CategoriaChip } from "../components/dashboard/CategoriaChip";
+import { ServicioCard } from "../components/dashboard/ServicioCard";
+import { BottomNav } from "../components/dashboard/BottomNav";
+import { FAB } from "../components/dashboard/FAB";
 
 import type { CategoriaResponse } from "../types/categoria";
 import type { ServicioResponse } from "../types/servicio";

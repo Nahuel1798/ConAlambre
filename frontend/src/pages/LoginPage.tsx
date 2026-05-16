@@ -1,47 +1,40 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginService } from "../services/loginService";
-import { Input } from "./ui/Input";
-import { Button } from "./ui/Button";
+import { Input } from "../components/ui/Input";
+import { Button } from "../components/ui/Button";
 import { Network, Mail, Lock, LogIn } from "lucide-react";
 import { setAuthToken } from "../client/api";
 
 export function LoginPage() {
-  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
-    const response = await loginService.login({
-      email,
-      contrasena: password,
-    });
+    try {
+      const response = await loginService.login({
+        email,
+        contrasena: password,
+      });
 
-    console.log("Login exitoso:", response);
+      console.log("Login exitoso:", response);
 
-    // Guardar token
-    setAuthToken(response.data.token);
+      // Guardar token
+      setAuthToken(response.data.token);
 
-    localStorage.setItem(
-      "token",
-      response.data.token
-    );
+      localStorage.setItem("token", response.data.token);
 
-    // Guardar usuario
-    localStorage.setItem(
-      "usuario",
-      JSON.stringify(response.data.usuario)
-    );
+      // Guardar usuario
+      localStorage.setItem("usuario", JSON.stringify(response.data.usuario));
 
-    navigate("/dashboard");
-  } catch (error) {
-    console.error("Error de login:", error);
-  }
-};
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Error de login:", error);
+    }
+  };
 
   return (
     <main className="flex flex-col min-h-screen items-center px-5 md:px-12 pt-12 pb-12 relative overflow-hidden bg-background text-on-surface lg:flex-row lg:justify-center lg:gap-12 lg:px-12 lg:pt-20 lg:pb-20">
@@ -58,7 +51,8 @@ export function LoginPage() {
             </h1>
           </div>
           <p className="font-body-md text-on-surface-variant max-w-[280px] mx-auto lg:mx-0 lg:max-w-sm">
-            Bienvenido de nuevo. Accedé a tu cuenta para conectar con clientes y profesionales.
+            Bienvenido de nuevo. Accedé a tu cuenta para conectar con clientes y
+            profesionales.
           </p>
         </header>
 
@@ -114,7 +108,10 @@ export function LoginPage() {
         <footer className="mt-6 text-center w-full lg:mt-8">
           <p className="font-body-sm text-on-surface-variant">
             ¿No tenés una cuenta?{" "}
-            <a className="text-primary font-semibold hover:underline" href="/SignupPage">
+            <a
+              className="text-primary font-semibold hover:underline"
+              href="/SignupPage"
+            >
               Registrate
             </a>
           </p>
@@ -132,3 +129,4 @@ export function LoginPage() {
     </main>
   );
 }
+

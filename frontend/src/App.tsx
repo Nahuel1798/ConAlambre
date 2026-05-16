@@ -1,11 +1,9 @@
-
-import { BrowserRouter, Routes , Route } from "react-router-dom";
-import { ClienteDashboardPage } from "./components/ClienteDashboardPage";
-import { SignupPage } from "./components/SignupPage";
-import { LoginPage } from "./components/LoginPage";
-import { RoleSelectorPage } from "./components/RoleSelectorPage";
-import { CompletarPerfilPage } from "./components/CompletarPerfilPage";
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ClienteDashboardPage } from "./pages/ClienteDashboardPage";
+import { SignupPage } from "./pages/SignupPage";
+import { LoginPage } from "./pages/LoginPage";
+import { RoleSelectorPage } from "./pages/RoleSelectorPage";
+import { CompletarPerfilPage } from "./pages/CompletarPerfilPage";
 
 function App() {
   return (
@@ -22,3 +20,4 @@ function App() {
 }
 
 export default App;
+

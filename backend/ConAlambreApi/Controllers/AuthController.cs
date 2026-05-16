@@ -31,7 +31,7 @@ namespace ConAlambreApi.Controllers
 
         // POST: api/Login
         [AllowAnonymous]
-        [HttpPost]
+        [HttpPost("login")]
         public ActionResult Login(LoginRequest request)
         {
             var user = _context.Usuarios.FirstOrDefault(u => u.Email == request.Email);
